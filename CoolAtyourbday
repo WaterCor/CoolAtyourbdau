@@ -1,0 +1,36 @@
+--[[ Made by CoolAtyourbday
+
+You shouldn't change anything if you don't know scripting.
+]]
+
+local ReplicatedFirst = game:GetService("ReplicatedFirst")
+local ContentProvider = game:GetService("ContentProvider")
+local TweenService = game:GetService("TweenService")
+local Background = script.Parent:WaitForChild("Background")
+
+ReplicatedFirst:RemoveDefaultLoadingScreen()
+local assets = game.Workspace:GetDescendants()
+script.Parent.Enabled = true
+
+for i = 1, #assets do
+    local asset = assets[i]
+    local percentage = math.round(i / #assets * 100)
+    ContentProvider:PreloadAsync({asset})
+    Background:WaitForChild("DisplayPercentage").Text = percentage.."%"
+    Background:WaitForChild("AssetsLoaded").Text = "Loading Assets: "..i.."/"..#assets
+    TweenService:Create(Background.BarBackground.Bar, TweenInfo.new(0.2,Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Size = UDim2.fromScale(percentage/100, 1)}):Play()
+    if i % 50 == 0 then
+        task.wait()
+    end
+end
+Background:WaitForChild("AssetsLoaded").Text = "Game loaded!"
+wait(3)
+for i, v in pairs(script.Parent:GetDescendants()) do
+    if v:IsA("Frame") then
+        TweenService:Create(v, TweenInfo.new(0.5), {BackgroundTransparency = 1}):Play()
+    elseif v:IsA("TextLabel") then
+        TweenService:Create(v, TweenInfo.new(0.5), {TextTransparency = 1}):Play()
+    end
+end
+wait(1)
+script.Parent.Enabled = false
