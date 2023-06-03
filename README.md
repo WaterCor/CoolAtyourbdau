@@ -1,2 +1,2 @@
-# CoolAtyourbdau
+# CoolAtyourbday
 Loading screen
