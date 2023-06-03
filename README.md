@@ -1,2 +1,0 @@
-# CoolAtyourbdau
-Loading screen
